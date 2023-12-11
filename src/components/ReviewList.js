@@ -1,4 +1,6 @@
-function ReviewListItem({ item }) {
+function ReviewListItem({ item, onDelete }) {
+  const handleDelete = () => onDelete(item.id);
+
   return (
     <div className="ReviewList">
       <img className="ReviewListItem-img" src={item.imgUrl} alt={item.title} />
@@ -7,19 +9,19 @@ function ReviewListItem({ item }) {
         <p>{item.rating}</p>
         <p>{item.createdAt}</p>
         <p>{item.content}</p>
+        <button onClick={handleDelete}>삭제</button>
       </div>
     </div>
   );
 }
 
-function ReviewList({ items }) {
-  console.log(items);
+function ReviewList({ items, onDelete }) {
   return (
     <ul>
       {items.map((item) => {
         return (
           <li>
-            <ReviewListItem item={item} />
+            <ReviewListItem item={item} onDelete={onDelete} />
           </li>
         );
       })}
