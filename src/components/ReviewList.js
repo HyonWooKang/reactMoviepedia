@@ -15,12 +15,13 @@ function ReviewListItem({ item, onDelete }) {
   );
 }
 
+// 배열 랜더링 할 때 키 값(item.id) 지정하기
 function ReviewList({ items, onDelete }) {
   return (
     <ul>
       {items.map((item) => {
         return (
-          <li>
+          <li key={item.id}>
             <ReviewListItem item={item} onDelete={onDelete} />
           </li>
         );
