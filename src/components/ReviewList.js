@@ -16,6 +16,7 @@ function ReviewListItem({ item, onDelete }) {
 }
 
 // 배열 랜더링 할 때 키 값(item.id) 지정하기
+// 배열의 인덱스는 구성 후 부여되기 때문에 키 값으로 사용할 수 없다 => 리뷰 등을 매칭 시킬 때 필요함
 function ReviewList({ items, onDelete }) {
   return (
     <ul>
