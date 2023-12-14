@@ -14,8 +14,5 @@ export async function getReviews({
   );
   const body = await response.json();
 
-  console.log(`response = ${response}`);
-  console.log(`body = ${body}`);
-
   return body;
 }
