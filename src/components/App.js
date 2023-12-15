@@ -27,7 +27,9 @@ function App() {
     if (options.offset === 0) {
       setItems(reviews);
     } else {
-      setItems([...items]);
+      setItems((prevItems) => [...prevItems, ...reviews]);
+      // 더보기 누고 통신이 느릴 때  삭제 하면 삭제된 코드가 다시 살아나는 것을 방지하기 위해 callBack으로 처리 지정하여 처리함
+      // prevItems는 리액트가 현재 시점의 아이템 값을 전달 해 줌
     }
     setOffset(options.offset + reviews.length);
     setHasNext(paging.hasNext);
