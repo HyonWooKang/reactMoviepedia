@@ -10,6 +10,7 @@ function App() {
   const [offset, setOffset] = useState(0); // 페이징
   const [hasNext, setHasNext] = useState(false); // 페이징
   const [isLoading, setIsLoading] = useState(false); // 로딩
+  const [loadingError, setLoadingError] = useState(null); // 에러 예외처리
 
   const sortedItems = items.sort((a, b) => b[order] - a[order]);
 
@@ -25,12 +26,12 @@ function App() {
 
   const handleLoad = async (options) => {
     let result;
-
     try {
       setIsLoading(true);
+      setLoadingError(null);
       result = await getReviews(options);
-    } catch (e) {
-      console.error(e);
+    } catch (error) {
+      setLoadingError(error);
       return;
     } finally {
       setIsLoading(false);
@@ -69,6 +70,7 @@ function App() {
           더보기
         </button>
       )}
+      {loadingError?.message && <span>{loadingError.message}</span>}
     </div>
   );
 }
