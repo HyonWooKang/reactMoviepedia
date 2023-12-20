@@ -53,7 +53,7 @@ function App() {
     handleLoad({ order, offset, limit: LIMIT });
   };
 
-  // 랜더링 이후 콜백 함수를 실행함 (dependency list([])도 기억함)
+  // 랜더링 이후 [] 안의 값이 바뀔 때마다 콜백 함수를 실행함 (dependency list([])도 기억함)
   useEffect(() => {
     handleLoad({ order, offset: 0, limit: LIMIT });
   }, [order]);
