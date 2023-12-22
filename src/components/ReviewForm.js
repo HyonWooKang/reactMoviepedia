@@ -1,19 +1,27 @@
 import { useState } from "react";
 import "../assets/css/ReviewForm.css";
+import FileInput from "./FileInput";
 
 function ReviewForm() {
   const [values, setValues] = useState({
     title: "",
     rating: 0,
     content: "",
+    imgFile: null,
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target; // 활용법 확인해보기
+  // for uncontrilled input
+  const handleChange = (name, value) => {
     setValues((prevValues) => ({
       ...prevValues,
       [name]: value,
     }));
+  };
+
+  // for controlled input
+  const handleInputChange = (e) => {
+    const { name, value } = e.target; // 활용법 확인해보기
+    handleChange(name, value);
   };
 
   const handleSubmit = (e) => {
@@ -24,17 +32,31 @@ function ReviewForm() {
 
   return (
     <form className="ReviewForm" onSubmit={handleSubmit}>
-      <input name="title" value={values.title} onChange={handleChange}></input>
+      <FileInput
+        name="imgFile"
+        value={values.imgFile}
+        onChange={handleChange}
+      />
+      <input
+        name="title"
+        value={values.title}
+        onChange={handleInputChange}
+      ></input>
       <input
         type="number"
         name="rating"
         value={values.rating}
-        onChange={handleChange}
+        onChange={handleInputChange}
       />
-      <textarea name="content" value={values.content} onChange={handleChange} />
+      <textarea
+        name="content"
+        value={values.content}
+        onChange={handleInputChange}
+      />
       <button type="submit">확인</button>
     </form>
   );
+  // input 태그에 value와 onChange를 붙여 값을 제어하면 제어 컴포넌트(controlled <-> uncontrolled 비제어)
 }
 // react에서는 값이 변할 때마다 onChange를 사용하는데 이는 js와 다르다 (=onInput)
 export default ReviewForm;
