@@ -20,8 +20,16 @@ function FileInput({ name, value, onChange }) {
     onChange(name, null); // 이미지 파일의 value가 null로 처리됨
   };
 
+  useEffect(() => {
+    if (!value) return;
+
+    const nextPreview = URL.createObjectURL(value);
+    setPreview(nextPreview);
+  }, [value]);
+
   return (
     <div>
+      <img src={preview} alt="이미지 미리보기" />
       <input type="file" onChange={handleChange} ref={inputRef} />
       {value && <button onClick={handleClearClick}>X</button>}
     </div>
