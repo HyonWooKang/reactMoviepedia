@@ -23,14 +23,24 @@ function FileInput({ name, value, onChange }) {
   useEffect(() => {
     if (!value) return;
 
-    const nextPreview = URL.createObjectURL(value);
+    const nextPreview = URL.createObjectURL(value); // 이미지를 메모리에 할
     setPreview(nextPreview);
+
+    return () => {
+      setPreview(); // prev 상태를 빈 값으로 처리
+      URL.revokeObjectURL(nextPreview); // 앞에 생성한 ObjectURL 해제
+    };
   }, [value]);
 
   return (
     <div>
       <img src={preview} alt="이미지 미리보기" />
-      <input type="file" onChange={handleChange} ref={inputRef} />
+      <input
+        type="file"
+        accept="image/png, image/jpeg"
+        onChange={handleChange}
+        ref={inputRef}
+      />
       {value && <button onClick={handleClearClick}>X</button>}
     </div>
   );
