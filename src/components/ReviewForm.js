@@ -1,15 +1,18 @@
 import { useState } from "react";
+import { createReviews } from "../api";
 import "../assets/css/ReviewForm.css";
 import FileInput from "./FileInput";
 import RatingInput from "./RatingInput";
 
+const INITIAL_VALUES = {
+  title: "",
+  rating: 0,
+  content: "",
+  imgFile: null,
+};
+
 function ReviewForm() {
-  const [values, setValues] = useState({
-    title: "",
-    rating: 0,
-    content: "",
-    imgFile: null,
-  });
+  const [values, setValues] = useState(INITIAL_VALUES);
 
   // for uncontrilled input
   const handleChange = (name, value) => {
@@ -25,10 +28,16 @@ function ReviewForm() {
     handleChange(name, value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     // html form 태그의 submit은 기본적으로 form의 값과 함께 get request를 보내는 것이라 새로고침됨
     e.preventDefault(); // 따라서 여기서는 이 기본 기능을 막고 console에 출력하도록 처리함
-    console.log({ values });
+    const formData = new FormData();
+    formData.append("title", values.title);
+    formData.append("rating", values.rating);
+    formData.append("content", values.content);
+    formData.append("imgFile", values.imgFile);
+    await createReviews(formData);
+    setValues(INITIAL_VALUES);
   };
 
   return (
