@@ -54,6 +54,11 @@ function App() {
     handleLoad({ order, offset, limit: LIMIT });
   };
 
+  // 비동기 함수에서 이전 값을 참고하려면 콜백 형태로 만들어야 한다 (더보기 -> 로딩 중 삭제 시나리오)
+  const handleSubmitSuccess = (review) => {
+    setItems((prevItems) => [review, ...prevItems]); // 맨 앞에 review 추가
+  };
+
   // 랜더링 이후 [] 안의 값이 바뀔 때마다 콜백 함수를 실행함 (dependency list([])도 기억함)
   useEffect(() => {
     handleLoad({ order, offset: 0, limit: LIMIT });
@@ -65,7 +70,7 @@ function App() {
         <button onClick={handleNewestClick}>최신순</button>
         <button onClick={handleBestClick}>베스트순</button>
       </div>
-      <ReviewForm />
+      <ReviewForm onSubmitSuccess={handleSubmitSuccess} />
       <ReviewList items={sortedItems} onDelete={handleDelete} />
       {hasNext && (
         <button disabled={isLoading} onClick={handleLoadMore}>

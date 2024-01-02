@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 
-function FileInput({ name, value, onChange }) {
+function FileInput({ name, value, initialPreview, onChange }) {
   // const [value, setValue] = useState();
-  const [preview, setPreview] = useState(); // 미리보기
+  const [preview, setPreview] = useState(initialPreview); // 미리보기
   const inputRef = useRef(); // 사진 초기화용 // null check 하여 사용하기
 
   // 파일 등록
@@ -27,10 +27,10 @@ function FileInput({ name, value, onChange }) {
     setPreview(nextPreview);
 
     return () => {
-      setPreview(); // prev 상태를 빈 값으로 처리
+      setPreview(initialPreview); // prev 상태를 빈 값으로 처리
       URL.revokeObjectURL(nextPreview); // 앞에 생성한 ObjectURL 해제
     };
-  }, [value]);
+  }, [value, initialPreview]);
 
   return (
     <div>
