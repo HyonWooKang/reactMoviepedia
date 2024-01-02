@@ -11,8 +11,10 @@ const INITIAL_VALUES = {
   imgFile: null,
 };
 
-function ReviewForm() {
+function ReviewForm({ onSubmitSuccess }) {
   const [values, setValues] = useState(INITIAL_VALUES);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submittingError, setSubmittingError] = useState(null);
 
   // for uncontrilled input
   const handleChange = (name, value) => {
@@ -36,7 +38,19 @@ function ReviewForm() {
     formData.append("rating", values.rating);
     formData.append("content", values.content);
     formData.append("imgFile", values.imgFile);
-    await createReviews(formData);
+
+    let result;
+    try {
+      setSubmittingError(null);
+      setIsSubmitting(true);
+      await createReviews(formData);
+    } catch (error) {
+      setSubmittingError(error);
+      return;
+    } finally {
+      setIsSubmitting(false);
+    }
+
     setValues(INITIAL_VALUES);
   };
 
@@ -62,7 +76,10 @@ function ReviewForm() {
         value={values.content}
         onChange={handleInputChange}
       />
-      <button type="submit">확인</button>
+      <button type="submit" disabled={isSubmitting}>
+        확인
+      </button>
+      {submittingError?.message && <div>{submittingError.message}</div>}
     </form>
   );
   // input 태그에 value와 onChange를 붙여 값을 제어하면 제어 컴포넌트(controlled <-> uncontrolled 비제어)

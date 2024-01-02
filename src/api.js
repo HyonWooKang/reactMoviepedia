@@ -23,6 +23,7 @@ export async function createReviews(formData) {
     method: "POST",
     body: formData,
   });
+  // 예외처리
   if (!response.ok) {
     throw new Error("리뷰를 생성하는데 실패했습니다.");
   }
