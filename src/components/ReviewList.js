@@ -1,3 +1,4 @@
+import "../assets/css/ReviewList.css";
 import Rating from "./Rating";
 
 function ReviewListItem({ item, onDelete }) {
